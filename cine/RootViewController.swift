@@ -15,8 +15,6 @@ class RootViewController: UIViewController, UIPageViewControllerDelegate {
     
     override func viewDidLoad() {
         
-        print("here")
-        
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         // Configure the page view controller and add it as a child view controller.
@@ -118,14 +116,12 @@ class RootViewController: UIViewController, UIPageViewControllerDelegate {
             guard let url = URL(string: urlString) else { return }
             
             URLSession.shared.dataTask(with: url) { (data, response, error) in
-                print("here")
                 if error != nil {
                     print(error!.localizedDescription)
                 }
                 
                 guard let data = data else
                 {
-                    print("broke here2")
                     return
                 }
                 
