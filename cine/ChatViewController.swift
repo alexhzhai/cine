@@ -1,5 +1,5 @@
 //
-//  DataViewController.swift
+//  ChatViewController.swift
 //  cine
 //
 //  Created by Alex Zhai and Arya Maheshwari on 4/21/18.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class DataViewController: UIViewController {
-
+class ChatViewController: UIViewController {
+    
     @IBOutlet weak var dataLabel: UILabel!
     var dataObject: String = ""
-
+    
     var knowsGenre = false
     
     @IBAction func respondYesGenre(_ sender: UIButton) {
@@ -23,21 +23,22 @@ class DataViewController: UIViewController {
         
     }
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.dataLabel!.text = dataObject
     }
-
+    
 }
+
 
