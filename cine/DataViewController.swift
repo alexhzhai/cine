@@ -2,7 +2,7 @@
 //  DataViewController.swift
 //  cine
 //
-//  Created by Alex Zhai on 4/21/18.
+//  Created by Alex Zhai and Arya Maheshwari on 4/21/18.
 //  Copyright © 2018 cine. All rights reserved.
 //
 
