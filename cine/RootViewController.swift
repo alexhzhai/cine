@@ -125,7 +125,6 @@ class RootViewController: UIViewController, UIPageViewControllerDelegate {
                     return
                 }
                 
-                print(data)
                 print("succeeded")
             }.resume()
         }
