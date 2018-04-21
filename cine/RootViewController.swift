@@ -39,9 +39,6 @@ class RootViewController: UIViewController, UIPageViewControllerDelegate {
 
         self.pageViewController!.didMove(toParentViewController: self)
         
-        var jdata = JSONData()
-        
-        jdata.getMovieCredits(800)
     }
 
     override func didReceiveMemoryWarning() {
@@ -89,47 +86,7 @@ class RootViewController: UIViewController, UIPageViewControllerDelegate {
 
         return .mid
     }
-    
-    struct JSONData {
-        
-        let apiID = "f0a08a45c140313b230b94058a0e4cb7"
-        
-        let baseURL = "https://api.themoviedb.org/3"
-        
-        var postfix : String
-        
-        var query : String
-        
-        init()
-        {
-            postfix = "?language=en-US&api_key=\(apiID)"
-            query = "to_be_changed"
-        }
-        
-        mutating func getMovieCredits(_ ID: Int) {
-            
-            query = "/person/\(ID)/movie_credits"
-            let urlString = baseURL + query + postfix;
-            
-            print(urlString)
-            
-            guard let url = URL(string: urlString) else { return }
-            
-            URLSession.shared.dataTask(with: url) { (data, response, error) in
-                if error != nil {
-                    print(error!.localizedDescription)
-                }
-                
-                guard let data = data else
-                {
-                    return
-                }
-                
-                print("succeeded")
-            }.resume()
-        }
-        
-    }
+
 
 }
 
