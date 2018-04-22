@@ -65,8 +65,6 @@ class DataViewController: UIViewController {
             //var result : [String: [Genre]] = [:]
             
             URLSession.shared.dataTask(with: urlGenres) { (data, response, error) in
-
-                print("XXXX")
                 
                 if error != nil {
                     print(error!.localizedDescription)
