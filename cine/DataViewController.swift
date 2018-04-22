@@ -48,7 +48,9 @@ class DataViewController: UIViewController {
         let getGenresURL = "https://api.themoviedb.org/3/genre/movie/list?"
         
         var genreList: [String: [Genre]]?
+        var movies: [MovieDetailsModel]?
         var apiURL = "https://api.themoviedb.org/3"
+        
         
         let group = DispatchGroup()
         var genreIdDictionary : [String: Int] = [:]
@@ -91,8 +93,6 @@ class DataViewController: UIViewController {
                         self.genreIdDictionary[g.getName()] = g.getID()
                     }
                     
-                    
-
                 } catch let jsonError {
                     print(jsonError)
                 }
@@ -105,7 +105,7 @@ class DataViewController: UIViewController {
         // genre format: all integers
         func addGenres(_ genres: [String]) -> String {
             
-            //TBD: get OFFICIAL list of genres for movies (and check whether text is one of them) - then convert String to Int
+            //TBD (before this): check whether USER given strings are OFFICIAL or not
             
             var ret = "&with_genres="
             for genreId in genres {
@@ -117,8 +117,6 @@ class DataViewController: UIViewController {
         }
         
         func discoverMovies(_ urlstr: String) {
-            
-            
             
             getOfficialGenres()
             
@@ -135,7 +133,6 @@ class DataViewController: UIViewController {
                 print(urlString)
                 
                 guard let url = URL(string: urlString) else { return }
-                
                 URLSession.shared.dataTask(with: url) { (data, response, error) in
                     if error != nil {
                         print(error!.localizedDescription)
@@ -146,9 +143,13 @@ class DataViewController: UIViewController {
                     do {
                         //Decode retrived data with JSONDecoder and assing type of Article object
                         
-                        //TBD: ADD . . . .
+                        let movieData = try JSONDecoder().decode(DisplayPageModel.self, from: data)
                         
-                        //need to dispatch queue stuff?
+                        print("getting to set movieData")
+                        self.movies = movieData.getMovieDetails()
+                        print(self.movies)
+                        
+                        //need to dispatch queue stuff? DISPATCH GROUP OR NO?
                         
                     } catch let jsonError {
                         print(jsonError)

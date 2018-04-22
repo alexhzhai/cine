@@ -20,6 +20,8 @@
 		254D81BF208C03CF00D1E43C /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254D81BE208C03CF00D1E43C /* ThirdViewController.swift */; };
 		25AD84B8208BF24400E88BEF /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AD84B7208BF24400E88BEF /* ChatViewController.swift */; };
 		758E7DA9208BFD1900E9B886 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758E7DA8208BFD1900E9B886 /* Genre.swift */; };
+		758E7DAB208C1F3300E9B886 /* MovieDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758E7DAA208C1F3300E9B886 /* MovieDetailsModel.swift */; };
+		758E7DAD208C203100E9B886 /* DisplayPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758E7DAC208C203100E9B886 /* DisplayPageModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,8 @@
 		254D81BE208C03CF00D1E43C /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
 		25AD84B7208BF24400E88BEF /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		758E7DA8208BFD1900E9B886 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
+		758E7DAA208C1F3300E9B886 /* MovieDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsModel.swift; sourceTree = "<group>"; };
+		758E7DAC208C203100E9B886 /* DisplayPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayPageModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,8 +115,10 @@
 			children = (
 				25147C9C208BC1BB005C493F /* AppDelegate.swift */,
 				25147C9E208BC1BB005C493F /* RootViewController.swift */,
-				758E7DA8208BFD1900E9B886 /* Genre.swift */,
 				25147CA0208BC1BB005C493F /* DataViewController.swift */,
+				758E7DA8208BFD1900E9B886 /* Genre.swift */,
+				758E7DAA208C1F3300E9B886 /* MovieDetailsModel.swift */,
+				758E7DAC208C203100E9B886 /* DisplayPageModel.swift */,
 				25AD84B7208BF24400E88BEF /* ChatViewController.swift */,
 				25147CA2208BC1BB005C493F /* ModelController.swift */,
 				25147CA4208BC1BB005C493F /* Main.storyboard */,
@@ -283,8 +289,10 @@
 				254D81BF208C03CF00D1E43C /* ThirdViewController.swift in Sources */,
 				25147CA3208BC1BB005C493F /* ModelController.swift in Sources */,
 				758E7DA9208BFD1900E9B886 /* Genre.swift in Sources */,
+				758E7DAB208C1F3300E9B886 /* MovieDetailsModel.swift in Sources */,
 				25147CA1208BC1BB005C493F /* DataViewController.swift in Sources */,
 				25147C9D208BC1BB005C493F /* AppDelegate.swift in Sources */,
+				758E7DAD208C203100E9B886 /* DisplayPageModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
