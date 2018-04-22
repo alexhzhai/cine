@@ -17,6 +17,7 @@
 		25147CB6208BC1BB005C493F /* cineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25147CB5208BC1BB005C493F /* cineTests.swift */; };
 		25147CC1208BC1BB005C493F /* cineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25147CC0208BC1BB005C493F /* cineUITests.swift */; };
 		25AD84B8208BF24400E88BEF /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AD84B7208BF24400E88BEF /* ChatViewController.swift */; };
+		758E7DA9208BFD1900E9B886 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758E7DA8208BFD1900E9B886 /* Genre.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		25147CC0208BC1BB005C493F /* cineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cineUITests.swift; sourceTree = "<group>"; };
 		25147CC2208BC1BB005C493F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25AD84B7208BF24400E88BEF /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		758E7DA8208BFD1900E9B886 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 			children = (
 				25147C9C208BC1BB005C493F /* AppDelegate.swift */,
 				25147C9E208BC1BB005C493F /* RootViewController.swift */,
+				758E7DA8208BFD1900E9B886 /* Genre.swift */,
 				25147CA0208BC1BB005C493F /* DataViewController.swift */,
 				25AD84B7208BF24400E88BEF /* ChatViewController.swift */,
 				25147CA2208BC1BB005C493F /* ModelController.swift */,
@@ -271,6 +274,7 @@
 				25AD84B8208BF24400E88BEF /* ChatViewController.swift in Sources */,
 				25147C9F208BC1BB005C493F /* RootViewController.swift in Sources */,
 				25147CA3208BC1BB005C493F /* ModelController.swift in Sources */,
+				758E7DA9208BFD1900E9B886 /* Genre.swift in Sources */,
 				25147CA1208BC1BB005C493F /* DataViewController.swift in Sources */,
 				25147C9D208BC1BB005C493F /* AppDelegate.swift in Sources */,
 			);

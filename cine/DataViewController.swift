@@ -41,16 +41,57 @@ class DataViewController: UIViewController {
         super.viewWillAppear(animated)
     }
     
-    struct JSONData {
+    class JSONData {
         
         let apiID = "f0a08a45c140313b230b94058a0e4cb7"
+        let getGenresURL = "https://api.themoviedb.org/3/genre/movie/list?"
         
+        var genreList: [String: [Genre]]?
         var apiURL = "https://api.themoviedb.org/3"
         
         init()
         {
             //call discoverMovies
             discoverMovies(apiURL)
+        }
+        
+        func getOfficialGenres() {
+            let urlString = getGenresURL + "api_key=\(apiID)"
+            print(urlString)
+            
+            guard let urlGenres = URL(string: urlString) else { return }
+            
+            //var result : [String: [Genre]] = [:]
+            
+            URLSession.shared.dataTask(with: urlGenres) { (data, response, error) in
+
+                print("XXXX")
+                
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+                
+                guard let data = data else{ return }
+                //Implement JSON decoding and parsing
+                do {
+                    //Decode retrived data with JSONDecoder and assing type of Article object
+                    let genreData = try JSONDecoder().decode([String: [Genre]].self, from: data)
+
+                    
+                    //ADD DISPATCH QUEUE?
+                    print("getting to set genreList")
+                    self.genreList = genreData
+                    print(self.genreList)
+                    
+
+                } catch let jsonError {
+                    print(jsonError)
+                }
+                
+                print("getting genres - succeeded")
+            }.resume()
+
+            //return result
         }
         
         // genre format: all integers
@@ -67,12 +108,14 @@ class DataViewController: UIViewController {
             return ret
         }
         
-        mutating func discoverMovies(_ urlstr: String) {
+        func discoverMovies(_ urlstr: String) {
             
             //ADD SPECIFICATIONS TO URL HERE: in CORRECT ORDER
             var urlString = urlstr
             urlString.append("/discover/movie?")
             urlString.append("api_key=\(apiID)")
+            
+            getOfficialGenres()
             
             //genres specification - SET BASED ON USER INPUT
             var genres = [28, 12] //convert to user input
@@ -86,12 +129,20 @@ class DataViewController: UIViewController {
                     print(error!.localizedDescription)
                 }
                 
-                guard let data = data else
-                {
-                    return
+                guard let data = data else{ return }
+                //Implement JSON decoding and parsing
+                do {
+                    //Decode retrived data with JSONDecoder and assing type of Article object
+                    
+                    //TBD: ADD . . . .
+                    
+                    //need to dispatch queue stuff?
+                    
+                } catch let jsonError {
+                    print(jsonError)
                 }
                 
-                print("succeeded")
+                print("get movies by genre - succeeded")
                 }.resume()
         }
         
