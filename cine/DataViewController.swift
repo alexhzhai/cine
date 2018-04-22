@@ -16,7 +16,7 @@ class DataViewController: UIViewController, UITextFieldDelegate {
     var dataObject : String = ""
     
     @IBAction func respondYesGenre(_ sender: UIButton)  {
-        print("genre was ")
+        print("genre was called")
     }
     @IBAction func respondNoGenre(_ sender: UIButton) {
         print("no genre called")
@@ -109,7 +109,7 @@ class DataViewController: UIViewController, UITextFieldDelegate {
                 }
                 
                 print("getting genres - succeeded")
-                
+                self.group.leave()
             }.resume()
             
             //return result
