@@ -16,7 +16,7 @@ class DataViewController: UIViewController, UITextFieldDelegate {
     var dataObject : String = ""
     
     @IBAction func respondYesGenre(_ sender: UIButton)  {
-        print("yes genre called")
+        print("genre was called")
     }
     @IBAction func respondNoGenre(_ sender: UIButton) {
         print("no genre called")
