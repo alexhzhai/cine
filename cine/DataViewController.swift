@@ -17,10 +17,11 @@ class DataViewController: UIViewController {
     
     @IBAction func respondYesGenre(_ sender: UIButton) {
         knowsGenre = true
+        
     }
     
     @IBAction func respondNoGenre(_ sender: UIButton) {
-        
+        knowsGenre = false
     }
     
 
