@@ -20,7 +20,7 @@ class ChatViewController: UIViewController {
     }
     
     @IBAction func respondNoGenre(_ sender: UIButton) {
-        
+        knowsGenre = false
     }
     
     
