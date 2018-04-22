@@ -12,36 +12,33 @@ class DataViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var dataLabel: UILabel!
     @IBOutlet weak var genreText: UITextField!
     
-    var genre : String? = ""
+    var queriedGenre : String? = ""
     var dataObject : String = ""
-    
+    let mainGroup = DispatchGroup()
+    var genres : [String]?
+
     @IBAction func respondYesGenre(_ sender: UIButton)  {
         print("genre was called")
+        getOfficialGenres()
+        
     }
     @IBAction func respondNoGenre(_ sender: UIButton) {
         print("no genre called")
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool{
-        genre = genreText.text
+        queriedGenre = genreText?.text
+        print(queriedGenre)
+        genres = [queriedGenre!]
+        discoverMovies(apiURL, genre: queriedGenre!)
         textField.resignFirstResponder()
-        print(genre)
         return true
     }
     
-    
-//    @IBOutlet weak var genreText: UITextField! {
-//        func textFieldShouldReturn(_ textField: UITextField) -> Bool{
-//            genre = genreText.text
-//            textField.resignFirstResponder()
-//            return true
-//        }
-//    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        var jdata = JSONData()
+        mainGroup.enter()
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,98 +50,89 @@ class DataViewController: UIViewController, UITextFieldDelegate {
         super.viewWillAppear(animated)
     }
     
-    class JSONData {
         
-        let apiID = "f0a08a45c140313b230b94058a0e4cb7"
-        let getGenresURL = "https://api.themoviedb.org/3/genre/movie/list?"
+    let apiID = "f0a08a45c140313b230b94058a0e4cb7"
+    let getGenresURL = "https://api.themoviedb.org/3/genre/movie/list?"
+    
+    var genreList: [String: [Genre]]?
+    var movies: [MovieDetailsModel]?
+    var apiURL = "https://api.themoviedb.org/3"
+    
+    
+    let group = DispatchGroup()
+    var genreIdDictionary : [String: Int] = [:]
+    
+    func getOfficialGenres() {
+        let urlString = getGenresURL + "api_key=\(apiID)"
+        print(urlString)
         
-        var genreList: [String: [Genre]]?
-        var movies: [MovieDetailsModel]?
-        var apiURL = "https://api.themoviedb.org/3"
+        guard let urlGenres = URL(string: urlString) else { return }
         
+        group.enter()
         
-        let group = DispatchGroup()
-        var genreIdDictionary : [String: Int] = [:]
+        //var result : [String: [Genre]] = [:]
+        
+        URLSession.shared.dataTask(with: urlGenres) { (data, response, error) in
+            
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            
+            guard let data = data else{ return }
+            //Implement JSON decoding and parsing
+            do {
+                //Decode retrived data with JSONDecoder and assing type of Article object
+                let genreData = try JSONDecoder().decode([String: [Genre]].self, from: data)
 
+                
+                //ADD DISPATCH QUEUE?
+                print("getting to set genreList")
+                self.genreList = genreData
+                //print(self.genreList)
+                for g in self.genreList!["genres"]! {
+                    self.genreIdDictionary[g.getName()] = g.getID()
+                }
+                
+            } catch let jsonError {
+                print(jsonError)
+            }
+            
+            print("getting genres - succeeded")
+            self.group.leave()
+        }.resume()
         
-        init()
-        {
-            //call discoverMovies
-            discoverMovies(apiURL)
+        //return result
+    }
+    
+    // genre format: all integers
+    func addGenres(_ genres: [String]) -> String {
+        
+        //TBD (before this): check whether USER given strings are OFFICIAL or not
+        
+        var ret = "&with_genres="
+        for genreId in genres {
+            ret.append("\(genreIdDictionary[genreId]!),")
         }
+        ret.remove(at: ret.index(before: ret.endIndex))
         
-        func getOfficialGenres() {
-            let urlString = getGenresURL + "api_key=\(apiID)"
+        return ret
+    }
+    
+    func discoverMovies(_ urlstr: String, genre gen: String) {
+        
+        group.notify(queue: .main) { //waits until getOfficialGenres completes
+            
+            //ADD SPECIFICATIONS TO URL HERE: in CORRECT ORDER
+            var urlString = urlstr
+            urlString.append("/discover/movie?")
+            urlString.append("api_key=\(self.apiID)")
+            
+            //genres specification - SET BASED ON USER INPUT
+            var genres = [gen] //convert to user input
+            urlString.append(self.addGenres(genres))
             print(urlString)
             
-            guard let urlGenres = URL(string: urlString) else { return }
-            
-            group.enter()
-            
-            //var result : [String: [Genre]] = [:]
-            
-            URLSession.shared.dataTask(with: urlGenres) { (data, response, error) in
-                
-                if error != nil {
-                    print(error!.localizedDescription)
-                }
-                
-                guard let data = data else{ return }
-                //Implement JSON decoding and parsing
-                do {
-                    //Decode retrived data with JSONDecoder and assing type of Article object
-                    let genreData = try JSONDecoder().decode([String: [Genre]].self, from: data)
-
-                    
-                    //ADD DISPATCH QUEUE?
-                    print("getting to set genreList")
-                    self.genreList = genreData
-                    //print(self.genreList)
-                    for g in self.genreList!["genres"]! {
-                        self.genreIdDictionary[g.getName()] = g.getID()
-                    }
-                    
-                } catch let jsonError {
-                    print(jsonError)
-                }
-                
-                print("getting genres - succeeded")
-                self.group.leave()
-            }.resume()
-            
-            //return result
-        }
-        
-        // genre format: all integers
-        func addGenres(_ genres: [String]) -> String {
-            
-            //TBD (before this): check whether USER given strings are OFFICIAL or not
-            
-            var ret = "&with_genres="
-            for genreId in genres {
-                ret.append("\(genreIdDictionary[genreId]!),")
-            }
-            ret.remove(at: ret.index(before: ret.endIndex))
-            
-            return ret
-        }
-        
-        func discoverMovies(_ urlstr: String) {
-            
-            getOfficialGenres()
-            
-            group.notify(queue: .main) { //waits until getOfficialGenres completes
-                
-                //ADD SPECIFICATIONS TO URL HERE: in CORRECT ORDER
-                var urlString = urlstr
-                urlString.append("/discover/movie?")
-                urlString.append("api_key=\(self.apiID)")
-                
-                //genres specification - SET BASED ON USER INPUT
-                var genres = ["Action", "Adventure"] //convert to user input
-                urlString.append(self.addGenres(genres))
-                print(urlString)
-                
+            self.mainGroup.notify(queue: .main) {
                 guard let url = URL(string: urlString) else { return }
                 URLSession.shared.dataTask(with: url) { (data, response, error) in
                     if error != nil {
@@ -171,8 +159,10 @@ class DataViewController: UIViewController, UITextFieldDelegate {
                     print("get movies by genre - succeeded")
                     }.resume()
             }
-            //IMPLEMENT NEXT PAGE FUNCTIONALITY - TO QUERY WITH GIVEN PAGE
+            
         }
+        //IMPLEMENT NEXT PAGE FUNCTIONALITY - TO QUERY WITH GIVEN PAGE
     }
 }
+
 
