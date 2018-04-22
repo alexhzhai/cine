@@ -26,14 +26,20 @@ class DataViewController: UIViewController, UITextFieldDelegate {
         print("no genre called")
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
-        queriedGenre = genreText?.text
-        print(queriedGenre)
-        genres = [queriedGenre!]
-        discoverMovies(apiURL, genre: queriedGenre!)
-        textField.resignFirstResponder()
-        return true
+    @IBAction func actionSelected(_ sender: UIButton) {
+        discoverMovies(apiURL, "Adventure")
     }
+    
+    
+    
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+//        queriedGenre = genreText?.text
+//        print(queriedGenre)
+//        genres = [queriedGenre!]
+//        discoverMovies(apiURL, genre: queriedGenre!)
+//        textField.resignFirstResponder()
+//        return true
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +98,7 @@ class DataViewController: UIViewController, UITextFieldDelegate {
                 for g in self.genreList!["genres"]! {
                     self.genreIdDictionary[g.getName()] = g.getID()
                 }
+                print(self.genreIdDictionary)
                 
             } catch let jsonError {
                 print(jsonError)
@@ -105,20 +112,13 @@ class DataViewController: UIViewController, UITextFieldDelegate {
     }
     
     // genre format: all integers
-    func addGenres(_ genres: [String]) -> String {
+    func addGenres(_ genreId: String) -> String {
         
-        //TBD (before this): check whether USER given strings are OFFICIAL or not
-        
-        var ret = "&with_genres="
-        for genreId in genres {
-            ret.append("\(genreIdDictionary[genreId]!),")
-        }
-        ret.remove(at: ret.index(before: ret.endIndex))
-        
-        return ret
+        //should be made generic in functional version
+        return "&with_genres=12"
     }
     
-    func discoverMovies(_ urlstr: String, genre gen: String) {
+    func discoverMovies(_ urlstr: String, _ gen: String) {
         
         group.notify(queue: .main) { //waits until getOfficialGenres completes
             
@@ -128,37 +128,35 @@ class DataViewController: UIViewController, UITextFieldDelegate {
             urlString.append("api_key=\(self.apiID)")
             
             //genres specification - SET BASED ON USER INPUT
-            var genres = [gen] //convert to user input
-            urlString.append(self.addGenres(genres))
+            urlString.append(self.addGenres(gen))
             print(urlString)
             
-            self.mainGroup.notify(queue: .main) {
-                guard let url = URL(string: urlString) else { return }
-                URLSession.shared.dataTask(with: url) { (data, response, error) in
-                    if error != nil {
-                        print(error!.localizedDescription)
-                    }
+            guard let url = URL(string: urlString) else { return }
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+                
+                guard let data = data else{ return }
+                //Implement JSON decoding and parsing
+                do {
+                    //Decode retrived data with JSONDecoder and assing type of Article object
                     
-                    guard let data = data else{ return }
-                    //Implement JSON decoding and parsing
-                    do {
-                        //Decode retrived data with JSONDecoder and assing type of Article object
-                        
-                        let movieData = try JSONDecoder().decode(DisplayPageModel.self, from: data)
-                        
-                        print("getting to set movieData")
-                        self.movies = movieData.getMovieDetails()
-                        print(self.movies)
-                        
-                        //need to dispatch queue stuff? DISPATCH GROUP OR NO?
-                        
-                    } catch let jsonError {
-                        print(jsonError)
-                    }
+                    let movieData = try JSONDecoder().decode(DisplayPageModel.self, from: data)
                     
-                    print("get movies by genre - succeeded")
-                    }.resume()
-            }
+                    print("getting to set movieData")
+                    self.movies = movieData.getMovieDetails()
+                    print(self.movies)
+                    
+                    //need to dispatch queue stuff? DISPATCH GROUP OR NO?
+                    
+                } catch let jsonError {
+                    print(jsonError)
+                }
+                
+                print("get movies by genre - succeeded")
+                }.resume()
+            
             
         }
         //IMPLEMENT NEXT PAGE FUNCTIONALITY - TO QUERY WITH GIVEN PAGE
