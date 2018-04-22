@@ -8,29 +8,40 @@
 
 import UIKit
 
-class DataViewController: UIViewController {
-
+class DataViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var dataLabel: UILabel!
-    var dataObject: String = ""
-
-    var knowsGenre = false
+    @IBOutlet weak var genreText: UITextField!
     
-    @IBAction func respondYesGenre(_ sender: UIButton) {
-        knowsGenre = true
-        
+    var genre : String? = ""
+    var dataObject : String = ""
+    
+    @IBAction func respondYesGenre(_ sender: UIButton)  {
+        print("yes genre called")
     }
-    
     @IBAction func respondNoGenre(_ sender: UIButton) {
-        knowsGenre = false
+        print("no genre called")
     }
     
-
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+        genre = genreText.text
+        textField.resignFirstResponder()
+        print(genre)
+        return true
+    }
+    
+    
+//    @IBOutlet weak var genreText: UITextField! {
+//        func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+//            genre = genreText.text
+//            textField.resignFirstResponder()
+//            return true
+//        }
+//    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         var jdata = JSONData()
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -88,8 +99,9 @@ class DataViewController: UIViewController {
                 }
                 
                 print("getting genres - succeeded")
+                
             }.resume()
-
+            
             //return result
         }
         
